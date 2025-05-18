@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:15
+    container_name: ecommerce_postgres
+    environment:
+        POSTGRES_USER: dbt_user
+        POSTGRES_PASSWORD: dbt_pass
+        POSTGRES_DB: ecommerce
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+
+      
