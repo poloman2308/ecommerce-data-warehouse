@@ -95,6 +95,7 @@ GROUP BY dc.full_name;
 ---
 
 👨‍💻 Author
-Derek Acevedo
-📍 GitHub
-📄 LinkedIn
+Derek Acevedo 
+📍 [GitHub](https://github.com/poloman2308)  
+📄 [LinkedIn](https://www.linkedin.com/in/derekacevedo86)
+
