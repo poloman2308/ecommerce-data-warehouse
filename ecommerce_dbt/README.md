@@ -35,6 +35,7 @@ It transforms raw CSV files (orders, customers, products) into clean, analytics-
 
 ## 📂 Project Structure
 
+```plaintext
 ecommerce-data-warehouse/
 ├── data/ # Raw CSVs (customers, orders, products)
 ├── dbt_project/
@@ -42,6 +43,7 @@ ecommerce-data-warehouse/
 ├── docker-compose.yml # PostgreSQL container config
 ├── init_db.sql # Creates the analytics schema
 └── README.md
+```
 
 ---
 
@@ -65,9 +67,22 @@ Sample dbt test definition:
       tests:
         - unique
         - not_null
+```
 
 ---
 
+## 📚 Generate & View Documentation
+
+```
+dbt docs generate
+dbt docs serve
+```
+
+---
+
+## 🚀 How to Run This Project
+
+```
 git clone https://github.com/poloman2308/ecommerce-data-warehouse.git
 cd ecommerce-data-warehouse
 
@@ -82,15 +97,20 @@ cd dbt_project/ecommerce_dbt
 dbt run
 dbt test
 dbt docs serve
+```
 
 ---
 
+## 📈 Example Query
+
+```
 SELECT
   dc.full_name,
   COUNT(fo.order_id) AS order_count
 FROM analytics.dim_customers dc
 JOIN analytics.fct_orders fo ON dc.customer_id = fo.customer_id
 GROUP BY dc.full_name;
+```
 
 ---
 
