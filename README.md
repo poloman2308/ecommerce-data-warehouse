@@ -1,9 +1,9 @@
-# 🛒 E-commerce Data Warehouse  
-> A modern data warehouse for e-commerce analytics using **dbt + PostgreSQL**  
-
+# 🛒 E-commerce Data Warehouse
 [![Build Status](https://img.shields.io/badge/dbt-Built%20with%20dbt-FF695E?logo=dbt)](https://www.getdbt.com/)
 [![GitHub last commit](https://img.shields.io/github/last-commit/poloman2308/ecommerce-data-warehouse)](https://github.com/poloman2308/ecommerce-data-warehouse)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+A modern data warehouse for e-commerce analytics using **dbt + PostgreSQL*
 
 ---
 
@@ -21,8 +21,9 @@ It transforms raw CSV files (orders, customers, products) into clean, analytics-
 
 ---
 
-## ⚙️ Architecture
+## ⚙️ Data Pipeline Architecture
 
+```nginx
 📁 CSV Files
    ↓
 🗃️ raw_* tables (PostgreSQL)
@@ -30,6 +31,20 @@ It transforms raw CSV files (orders, customers, products) into clean, analytics-
 🧼 stg_* models (cleaned, normalized via dbt)
    ↓
 🧠 dim_* / fct_* models (analytics-ready)
+```
+
+### 🔹 Layer Descriptions:
+
+| Layer         | Description                                                     |
+| ------------- | --------------------------------------------------------------- |
+| **CSV Files** | Raw source data (`customers.csv`, `orders.csv`, `products.csv`) |
+| **raw\_**\*   | Raw tables loaded into PostgreSQL without transformation        |
+| **stg\_**\*   | Staging models that clean and normalize raw data                |
+| **dim\_**\*   | Dimension models used for lookups (e.g., `dim_customers`)       |
+| **fct\_**\*   | Fact models used for analytics (e.g., `fct_orders`)             |
+
+✅ This layered approach ensures data is trustworthy, testable, and analytics-ready.
+It's designed to support modular, scalable, and production-grade pipelines.
 
 ---
 
@@ -47,21 +62,10 @@ ecommerce-data-warehouse/
 
 ---
 
-## 🧭 Lineage Graph Example
-
-Here's a visual representation of the dbt model relationships (from raw to staging to final models):
-
-![dbt Lineage Graph](assets/lineage.png)
-
----
-
-## 🧪 Data Quality Tests
-
-Sample dbt test definition:
+## 🧪 Example Tests
 
 ```yaml
 - name: stg_customers
-  description: "Staging customers model"
   columns:
     - name: customer_id
       tests:
@@ -71,12 +75,27 @@ Sample dbt test definition:
 
 ---
 
-## 📚 Generate & View Documentation
-
+```bash
+dbt test
 ```
+
+---
+
+## 🌐 Documentation
+
+```bash
 dbt docs generate
 dbt docs serve
 ```
+Then open: http://localhost:8000
+
+---
+
+## 🧭 Lineage Graph Example
+
+Here's a visual representation of the dbt model relationships (from raw to staging to final models):
+
+![dbt Lineage Graph](assets/lineage.png)
 
 ---
 
