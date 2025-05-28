@@ -50,7 +50,9 @@ jobs:
           PGPASSWORD=airflow psql -h localhost -p 5433 -U airflow -d airflow -f init_db.sql
 
       - name: Run dbt deps
+        working-directory: ./dbt_project/ecommerce_dbt
         run: dbt deps --profiles-dir .dbt
 
       - name: Run dbt build
+        working-directory: ./dbt_project/ecommerce_dbt
         run: dbt build --profiles-dir .dbt
