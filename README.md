@@ -103,15 +103,15 @@ ecommerce-data-warehouse/
 ### ✅ What It Does
 * On every push to main, the pipeline:
 
-** Spins up PostgreSQL in a GitHub-hosted runner
+* * Spins up PostgreSQL in a GitHub-hosted runner
 
-** Creates the ecommerce database
+* * Creates the ecommerce database
 
-** Installs dbt and dependencies
+* * Installs dbt and dependencies
 
-** Runs dbt build and all tests
+* * Runs dbt build and all tests
 
-** Fails the workflow if anything breaks
+* * Fails the workflow if anything breaks
 
 ---
 
@@ -214,7 +214,7 @@ POSTGRES_DB=airflow
 - [Architecture](#-architecture)
 - [Features](#-features)
 - [Project Structure](#-project-structure)
-- [CI/CD with GitHub Actions](#-ci-/-cd-with-github-actions)
+- [CI/CD with GitHub Actions](#-ci/cd-with-github-actions)
 - [How to Run Locally](#-how-to-run-locally)
 - [Airflow DAG Overview](#️-airflow-dag-overview)
 - [Example Models](#-example-models)
