@@ -1,0 +1,5 @@
+return_id,order_id,return_date,reason
+1,10001,3/12/2025,Damaged
+2,10005,5/20/2025,Wrong item
+3,10009,5/18/2025,No longer needed
+4,10015,5/5/2025,Not as described

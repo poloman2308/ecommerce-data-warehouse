@@ -4,4 +4,4 @@ SELECT
     LOWER(last_name) AS last_name,
     email,
     created_at
-FROM public.raw_customers
+FROM {{ source('raw', 'raw_customers') }}

@@ -1,0 +1,89 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: public
+    tables:
+      - name: raw_orders
+      #        loaded_at_field: order_date::timestamp
+      #        freshness:
+      #          warn_after: { count: 60, period: day }
+      #          error_after: { count: 90, period: day }
+
+      - name: raw_customers
+      #        loaded_at_field: created_at::timestamp
+      #        freshness:
+      #          warn_after: { count: 60, period: day }
+      #          error_after: { count: 90, period: day }
+
+      - name: raw_products
+        # No timestamp field — omit freshness check
+        description: "Raw products table (no freshness tracking)"
+        columns:
+          - name: product_id
+            description: "Primary key for the product"
+
+      - name: raw_returns
+      #        loaded_at_field: return_date::timestamp
+      #        freshness:
+      #          warn_after: { count: 60, period: day }
+      #          error_after: { count: 90, period: day }
+
+      - name: raw_date
+        description: "Raw date dimension table"
+        columns:
+          - name: date
+            description: "Date"
+#        loaded_at_field: date::timestamp
+#        freshness:
+#          warn_after: { count: 60, period: day }
+#          error_after: { count: 90, period: day }
+
+models:
+  - name: stg_customers
+    description: "Staging model for raw customers data"
+    columns:
+      - name: customer_id
+        description: "Primary key for the customer"
+        tests:
+          - not_null
+          - unique
+      - name: email
+        description: "Customer email address"
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: "Staging model for raw orders data"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: "Staging model for raw products data"
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_date
+    description: "Staging model for date dimension"
+    columns:
+      - name: date_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_returns
+    description: "Staging model for raw returns data"
+    columns:
+      - name: return_id
+        tests:
+          - not_null
+          - unique

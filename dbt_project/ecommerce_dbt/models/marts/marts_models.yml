@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Dimension table for customers"
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+      - name: full_name
+        tests:
+          - not_null
+
+  - name: dim_date
+    description: "Dimension table for date"
+    columns:
+      - name: date_id
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_orders
+    description: "Fact table for orders"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - not_null
+      - name: amount
+        tests:
+          - not_null
+  - name: fct_returns
+    description: "Fact table for returns"
+    columns:
+      - name: return_id
+        tests:
+          - not_null
+          - unique
+      - name: order_id
+        tests:
+          - not_null

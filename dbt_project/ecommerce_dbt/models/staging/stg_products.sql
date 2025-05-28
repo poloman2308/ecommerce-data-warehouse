@@ -3,4 +3,4 @@ SELECT
     name,
     price,
     category
-FROM public.raw_products
+FROM {{ source('raw', 'raw_products') }}

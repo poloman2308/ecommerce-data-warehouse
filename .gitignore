@@ -1,8 +1,16 @@
-venv/
+# Python
 __pycache__/
-dbt_packages/
-target/
-.env
 *.pyc
 *.log
+
+# DBT
+dbt_packages/
+target/
+
+# Environment
+.env
+venv/
+
+# MacOS & Windows
 .DS_Store
+Thumbs.db

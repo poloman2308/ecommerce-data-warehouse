@@ -1,0 +1,12 @@
+name: "ecommerce_dbt"
+version: "1.0"
+profile: "ecommerce_dbt"
+
+model-paths: ["models"]
+
+models:
+  ecommerce_dbt:
+    staging:
+      +schema: staging
+    marts:
+      +schema: analytics
