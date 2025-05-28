@@ -5,6 +5,7 @@
 [![PostgreSQL License](https://img.shields.io/badge/License-PostgreSQL-blue.svg)](https://opensource.org/licenses/PostgreSQL)
 [![BSD 3-Clause](https://img.shields.io/badge/License-BSD_3--Clause-orange.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![LGPL](https://img.shields.io/badge/License-LGPL-lightgrey.svg)](https://www.gnu.org/licenses/lgpl-3.0.html)
+[![CI](https://github.com/poloman2308/ecommerce-data-warehouse/actions/workflows/dbt.yml/badge.svg)](https://github.com/poloman2308/ecommerce-data-warehouse/actions)
 
 A modern data warehouse pipeline for e-commerce analytics — built with **dbt**, **Apache Airflow**, **PostgreSQL**, and **Docker**. This project follows ELT best practices, automates freshness checks, generates documentation, and orchestrates tasks via a production-ready Airflow DAG.
 
@@ -156,6 +157,20 @@ POSTGRES_DB=airflow
 * Data visualizations with Metabase or Superset
 
 * Add pytest or Great Expectations for validation
+
+---
+
+## 📚 Table of Contents
+
+- [Architecture](#-architecture)
+- [Features](#-features)
+- [Project Structure](#-project-structure)
+- [How to Run Locally](#-how-to-run-locally)
+- [Airflow DAG Overview](#️-airflow-dag-overview)
+- [Example Models](#-example-models)
+- [Environment Variables](#-environment-variables)
+- [Future Enhancements](#-future-enhancements)
+- [Author](#-author)
 
 ---
 
