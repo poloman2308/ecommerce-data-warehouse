@@ -16,14 +16,19 @@ A modern data warehouse pipeline for e-commerce analytics — built with **dbt**
 ```mermaid
 flowchart LR
   subgraph Source_Data
-    A1[raw_orders.csv] --> B1
-    A2[raw_customers.csv] --> B1
-    A3[raw_products.csv] --> B1
-    A4[raw_returns.csv] --> B1
+    A1[raw_orders.csv]
+    A2[raw_customers.csv]
+    A3[raw_products.csv]
+    A4[raw_returns.csv]
   end
 
   subgraph Bronze_Layer
-    B1[init_db.sql\n→ PostgreSQL] --> C1[raw schema]
+    B1[init_db.sql\n→ PostgreSQL]
+    A1 --> B1
+    A2 --> B1
+    A3 --> B1
+    A4 --> B1
+    B1 --> C1[raw schema]
   end
 
   subgraph Orchestration
@@ -33,9 +38,9 @@ flowchart LR
 
   subgraph dbt_Transformation
     D1 --> E1[dbt build\nstaging models]
-    E1 --> E2[dbt build\nmarts (facts/dims)]
+    E1 --> E2[dbt build\nmarts\n(facts & dims)]
     D1 --> F1[dbt source freshness]
-    D1 --> F2[dbt docs generate/serve]
+    D1 --> F2[dbt docs generate & serve]
   end
 ```
 
