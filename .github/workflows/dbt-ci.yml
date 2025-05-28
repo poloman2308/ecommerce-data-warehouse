@@ -51,8 +51,8 @@ jobs:
 
       - name: Run dbt deps
         working-directory: ./dbt_project/ecommerce_dbt
-        run: dbt deps --profiles-dir .dbt
+        run: dbt deps --profiles-dir ../../airflow
 
       - name: Run dbt build
         working-directory: ./dbt_project/ecommerce_dbt
-        run: dbt build --profiles-dir .dbt
+        run: dbt build --profiles-dir ../../airflow
