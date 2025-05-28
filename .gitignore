@@ -1,16 +1,31 @@
 # Python
 __pycache__/
 *.pyc
-*.log
+*.pyo
+*.pyd
 
-# DBT
+# Airflow
+logs/
+airflow.db
+*.sqlite
+
+# dbt
 dbt_packages/
 target/
 
-# Environment
+# Environment & secrets
 .env
-venv/
+.envrc
+*.env
+.env.*
 
-# MacOS & Windows
+# VSCode or IDE
+.vscode/
+.idea/
+
+# Docker
+*.pid
+*.sock
+*.log
+__MACOSX/
 .DS_Store
-Thumbs.db

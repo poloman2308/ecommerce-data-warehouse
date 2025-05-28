@@ -3,10 +3,10 @@ ecommerce_dbt:
   outputs:
     dev:
       type: postgres
-      host: host.docker.internal # ← use localhost if you didn't change the Docker port
-      user: dbt_user
-      password: dbt_pass
-      port: 5433 # ← use 5432 if you didn't change the Docker port
+      host: "{{ env_var('DBT_POSTGRES_HOST', 'postgres') }}"
+      user: airflow
+      password: airflow
+      port: 5432
       dbname: ecommerce
       schema: analytics
       threads: 4

@@ -24,6 +24,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      DBT_POSTGRES_HOST: localhost
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -46,7 +49,7 @@ jobs:
             outputs:
               dev:
                 type: postgres
-                host: localhost
+                host: "{{ env_var('DBT_POSTGRES_HOST', 'postgres') }}"
                 user: dbt_user
                 password: dbt_pass
                 port: 5433
