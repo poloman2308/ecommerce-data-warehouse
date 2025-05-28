@@ -2,22 +2,22 @@ name: dbt CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
 
 jobs:
   dbt-build:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:13
-        env:
-          POSTGRES_USER: airflow
-          POSTGRES_PASSWORD: airflow
-          POSTGRES_DB: airflow
         ports:
           - 5433:5432
+        env:
+          POSTGRES_USER: dbt_user
+          POSTGRES_PASSWORD: dbt_pass
+          POSTGRES_DB: ecommerce
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -25,34 +25,36 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: 3.10
 
-      - name: Install dependencies
+      - name: Install dbt-core and adapter
         run: |
-          python -m pip install --upgrade pip
-          pip install dbt-postgres
+          pip install dbt-core dbt-postgres
 
-      - name: Wait for Postgres to be ready
+      - name: Create CI profiles.yml
         run: |
-          until pg_isready -h localhost -p 5433 -U airflow; do
-            echo "Waiting for Postgres..."
-            sleep 2
-          done
-
-      - name: Load raw tables with init_db.sql
-        run: |
-          PGPASSWORD=airflow psql -h localhost -p 5433 -U airflow -d airflow -f init_db.sql
-
-      - name: Run dbt deps
-        working-directory: ./dbt_project/ecommerce_dbt
-        run: dbt deps --profiles-dir ../../airflow
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<EOL
+          ecommerce_dbt:
+            target: dev
+            outputs:
+              dev:
+                type: postgres
+                host: localhost
+                user: dbt_user
+                password: dbt_pass
+                port: 5433
+                dbname: ecommerce
+                schema: analytics
+                threads: 4
+          EOL
 
       - name: Run dbt build
         working-directory: ./dbt_project/ecommerce_dbt
-        run: dbt build --profiles-dir ../../airflow
+        run: dbt build --profiles-dir ~/.dbt
