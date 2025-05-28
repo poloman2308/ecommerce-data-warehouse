@@ -1,9 +1,9 @@
 SELECT
-  date_id,
-  date_day,
+  date_key,
+  date,
   year,
   month,
   day,
-  day_of_week
+  day_name
 FROM {{ ref('stg_date') }}
 

@@ -1,5 +1,5 @@
 SELECT
-  date_key AS date_id,
+  date_key,
   date,
   year,
   month,
