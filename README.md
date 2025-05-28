@@ -214,7 +214,7 @@ POSTGRES_DB=airflow
 - [Architecture](#-architecture)
 - [Features](#-features)
 - [Project Structure](#-project-structure)
-- [CI//CD with GitHub Actions](#-ci/cd-with-github-actions)
+- [CI/CD with GitHub Actions](#-ci/cd-with-github-actions)
 - [How to Run Locally](#-how-to-run-locally)
 - [Airflow DAG Overview](#️-airflow-dag-overview)
 - [Example Models](#-example-models)
