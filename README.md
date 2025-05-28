@@ -23,7 +23,7 @@ flowchart LR
   end
 
   subgraph Bronze_Layer
-    B1[init_db.sql\n→ PostgreSQL]
+    B1[init_db.sql → PostgreSQL]
     A1 --> B1
     A2 --> B1
     A3 --> B1
@@ -32,15 +32,15 @@ flowchart LR
   end
 
   subgraph Orchestration
-    D1[Airflow DAG\ndbt_dag.py]
+    D1[Airflow DAG: dbt_dag.py]
     C1 --> D1
   end
 
   subgraph dbt_Transformation
-    D1 --> E1[dbt build\nstaging models]
-    E1 --> E2[dbt build\nmarts\n(facts & dims)]
+    D1 --> E1[dbt build: staging models]
+    E1 --> E2[dbt build: marts layer]
     D1 --> F1[dbt source freshness]
-    D1 --> F2[dbt docs generate & serve]
+    D1 --> F2[dbt docs generate and serve]
   end
 ```
 
