@@ -1,15 +1,14 @@
-name: CI - dbt Build & Test
+name: dbt CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  dbt:
+  dbt-build:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:13
@@ -20,13 +19,13 @@ jobs:
         ports:
           - 5433:5432
         options: >-
-          --health-cmd="pg_isready -U airflow"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -34,29 +33,24 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dbt
-        run: pip install dbt-postgres
-
-      - name: Create profiles.yml
+      - name: Install dependencies
         run: |
-          mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml <<EOF
-          ecommerce_dbt:
-            target: dev
-            outputs:
-              dev:
-                type: postgres
-                host: localhost
-                port: 5433
-                user: airflow
-                password: airflow
-                dbname: airflow
-                schema: public
-                threads: 4
-          EOF
+          python -m pip install --upgrade pip
+          pip install dbt-postgres
+
+      - name: Wait for Postgres to be ready
+        run: |
+          until pg_isready -h localhost -p 5433 -U airflow; do
+            echo "Waiting for Postgres..."
+            sleep 2
+          done
+
+      - name: Load raw tables with init_db.sql
+        run: |
+          PGPASSWORD=airflow psql -h localhost -p 5433 -U airflow -d airflow -f init_db.sql
 
       - name: Run dbt deps
-        run: dbt deps --project-dir dbt_project/ecommerce_dbt
+        run: dbt deps --profiles-dir .dbt
 
       - name: Run dbt build
-        run: dbt build --project-dir dbt_project/ecommerce_dbt --profiles-dir ~/.dbt
+        run: dbt build --profiles-dir .dbt
