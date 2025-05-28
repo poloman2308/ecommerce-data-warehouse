@@ -15,25 +15,25 @@ A modern data warehouse pipeline for e-commerce analytics — built with **dbt**
 
 ```mermaid
 flowchart LR
-  subgraph Source Data
+  subgraph Source_Data
     A1[raw_orders.csv] --> B1
     A2[raw_customers.csv] --> B1
     A3[raw_products.csv] --> B1
     A4[raw_returns.csv] --> B1
   end
 
-  subgraph Bronze Layer
-    B1[init_db.sql → PostgreSQL] --> C1[raw schema]
+  subgraph Bronze_Layer
+    B1[init_db.sql\n→ PostgreSQL] --> C1[raw schema]
   end
 
   subgraph Orchestration
-    D1[Airflow DAG<br>dbt_dag.py]
+    D1[Airflow DAG\ndbt_dag.py]
     C1 --> D1
   end
 
-  subgraph dbt Transformation
-    D1 --> E1[dbt build<br>staging models]
-    E1 --> E2[dbt build<br>marts (facts/dims)]
+  subgraph dbt_Transformation
+    D1 --> E1[dbt build\nstaging models]
+    E1 --> E2[dbt build\nmarts (facts/dims)]
     D1 --> F1[dbt source freshness]
     D1 --> F2[dbt docs generate/serve]
   end
