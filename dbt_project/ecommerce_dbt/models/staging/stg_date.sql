@@ -1,9 +1,9 @@
 SELECT
-  date_id,
-  date_day,
+  date_key AS date_id,
+  date,
   year,
   month,
   day,
-  day_of_week
+  day_name
 FROM {{ source('raw', 'raw_date') }}
 
