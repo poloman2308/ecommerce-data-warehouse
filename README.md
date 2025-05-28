@@ -53,7 +53,9 @@ flowchart LR
 
 * Data Quality Tests: Built-in tests for not_null, unique, and freshness.
 
-* Dockerized: Fully containerized dev environment.
+* Dockerized: Fully containerized for local development and CI runs.
+
+* CI/CD: GitHub Actions pipeline to test dbt builds and validate SQL logic automatically on every push.
 
 * Documentation Site: Self-hosted dbt docs via Airflow task.
 
@@ -65,23 +67,68 @@ flowchart LR
 ecommerce-data-warehouse/
 │
 ├── airflow/
-│   └── dags/
-│       └── dbt_dag.py              # Airflow DAG definition
+│   ├── dags/
+│   │   └── dbt_dag.py                  # Airflow DAG definition
+│   ├── init_create_ecommerce.sql       # Creates 'ecommerce' database (for CI/CD)
+│   ├── init_raw_tables.sql             # Creates raw.* tables and loads CSVs
+│   └── profiles.yml                    # DBT profile used in DAG
 │
 ├── dbt_project/
 │   └── ecommerce_dbt/
 │       ├── models/
-│       │   ├── staging/            # Staging models (stg_*)
-│       │   └── marts/              # Fact/dimension models
-│       ├── seeds/                  # Optional seed data
-│       ├── dbt_project.yml         # DBT project config
-│       └── profiles.yml            # DBT profile
+│       │   ├── staging/                # Staging models (stg_*)
+│       │   └── marts/                  # Fact/dimension models
+│       ├── seeds/                      # Optional seed data
+│       └── dbt_project.yml             # DBT project config
 │
-├── generate_dim_date.py           # Script to generate date dimension
-├── init_db.sql                    # Creates raw schema and loads CSVs
-├── docker-compose.yml             # Spin up Postgres, Airflow, and dbt
+├── data/                               # CSV source files
+│   ├── raw_orders.csv
+│   ├── raw_customers.csv
+│   ├── raw_products.csv
+│   ├── raw_returns.csv
+│   └── raw_date.csv
+│
+├── .github/
+│   └── workflows/
+│       └── dbt-ci.yml                  # GitHub Actions CI/CD for dbt
+│
+├── generate_dim_date.py               # Generates date dimension
+├── docker-compose.yml                 # Spins up Postgres, Airflow, and dbt
 └── README.md
 ```
+
+---
+
+## 🤖 CI/CD with GitHub Actions
+### ✅ What It Does
+* On every push to main, the pipeline:
+
+** Spins up PostgreSQL in a GitHub-hosted runner
+
+** Creates the ecommerce database
+
+** Installs dbt and dependencies
+
+** Runs dbt build and all tests
+
+** Fails the workflow if anything breaks
+
+---
+
+## 📁 Workflow Location
+
+```bash
+.github/workflows/dbt-ci.yml
+```
+
+---
+
+## 🔁 Flexibility
+This setup uses dynamic host configuration and works seamlessly:
+
+* ✅ Locally via Docker and Airflow
+
+* ✅ In GitHub Actions for CI/CD
 
 ---
 
@@ -142,7 +189,7 @@ Dimension Table: dim_customers
 
 ## 🔐 Environment Variables
 
-Create a .env (optional if customizing):
+Create a .env (optional for local development):
 
 ```env
 POSTGRES_USER=airflow
@@ -156,8 +203,6 @@ POSTGRES_DB=airflow
 
 * Add real-time ingestion via Kafka
 
-* CI/CD with GitHub Actions for dbt build/test
-
 * Data visualizations with Metabase or Superset
 
 * Add pytest or Great Expectations for validation
@@ -169,6 +214,7 @@ POSTGRES_DB=airflow
 - [Architecture](#-architecture)
 - [Features](#-features)
 - [Project Structure](#-project-structure)
+- [CI/CD with GitHub Actions](#-ci-/-cd-with-github-actions)
 - [How to Run Locally](#-how-to-run-locally)
 - [Airflow DAG Overview](#️-airflow-dag-overview)
 - [Example Models](#-example-models)
