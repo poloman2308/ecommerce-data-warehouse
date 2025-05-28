@@ -15,7 +15,7 @@ models:
   - name: dim_date
     description: "Dimension table for date"
     columns:
-      - name: date_id
+      - name: date_key
         tests:
           - not_null
           - unique
@@ -30,7 +30,7 @@ models:
       - name: customer_id
         tests:
           - not_null
-      - name: amount
+      - name: status
         tests:
           - not_null
   - name: fct_returns
